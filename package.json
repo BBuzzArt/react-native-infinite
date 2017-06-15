@@ -1,0 +1,19 @@
+{
+  "name": "react-native-infinite",
+  "version": "1.0.0-alpha.1",
+  "description": "Infinite list for react native",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BBuzzArt/react-native-infinite.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BBuzzArt/react-native-infinite/issues"
+  },
+  "homepage": "https://github.com/BBuzzArt/react-native-infinite#readme"
+}
