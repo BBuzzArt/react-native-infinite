@@ -5,13 +5,12 @@ import { View, Text, FlatList, Dimensions } from 'react-native';
 import { Indicator, Error } from './res';
 
 import css from './css';
-import mock from './mock';
 
 
 export default class InfiniteScroll extends React.Component {
 
 	static propTypes = {
-
+		items: PropTypes.array,
 	};
 
 	static defaultProps = {
@@ -22,7 +21,7 @@ export default class InfiniteScroll extends React.Component {
 		useRefresh: true,
 		useDebug: false,
 
-		items: mock,
+		items: null,
 		column: 1,
 		margin: 0,
 
@@ -38,33 +37,66 @@ export default class InfiniteScroll extends React.Component {
 		renderError: () => <Error/>,
 
 		style: null,
+		styleRow: null,
+		styleItem: null,
 	};
 
 	constructor(props) {
 		super(props);
 
 		this._list = null;
-
-		this.rowComponent = this.renderRow.bind(this);
-		this.headerComponent = this.renderHeader.bind(this);
-		this.footerComponent = this.renderFooter.bind(this);
+		this.itemSize = 0;
+		this.windowSize = { width: 0, height: 0 };
 	}
 
-	componentDidMount() {}
-	componentWillUnmount() {}
+	/***
+	 * LIFE CYCLE AREA
+	 */
 
-	renderRow(item) {
+	componentWillMount() {
+		this.windowSize = Dimensions.get('window');
+		this.itemSize = this.getItemSize();
+	}
+
+	componentWillUpdate() {
+		this.windowSize = Dimensions.get('window');
+		this.itemSize = this.getItemSize();
+	}
+
+	/***
+	 * FUNCTIONS AREA
+	 */
+
+	getItemSize() {
+		const { props } = this;
+		let width = props.width === 'auto' ? this.windowSize.width : props.width;
+
+		return props.column > 1 ? (width - ((props.column - 1) * (props.margin * 0.5))) / props.column : 'auto';
+	}
+
+	/***
+	 * RENDER AREA
+	 */
+
+	renderRow(o) {
 		const { props } = this;
 
-		// TODO: 뷰 함수 작업
-		// TODO: 아이템 사이즈 작업
+		if (!(props.renderRow && typeof props.renderRow === 'function')) return null;
 
 		return (
-			<View>
-				<Text>row</Text>
+			<View style={[
+				{ margin: props.margin * .5, width: this.itemSize },
+				props.styleItem
+			]}>
+				{props.renderRow(
+					o.item,
+					o.index,
+					this.itemSize === 'auto' ? this.windowSize.width : this.itemSize
+				)}
 			</View>
 		);
 	}
+
 	renderHeader() {
 		const { props } = this;
 
@@ -72,7 +104,7 @@ export default class InfiniteScroll extends React.Component {
 			return (
 				<View style={[
 					css.header,
-					{ marginTop: props.margin, marginBottom: 0 - props.margin }
+					{ margin: props.margin, marginBottom: 0 - props.margin * .5 }
 				]}>
 					{props.renderHeader()}
 				</View>
@@ -81,13 +113,19 @@ export default class InfiniteScroll extends React.Component {
 
 		return null;
 	}
+
 	renderFooter() {
 		const { props } = this;
 
 		return (
-			<View style={css.footer}>
+			<View style={[
+				css.footer,
+				{ margin: props.margin, marginTop: 0 - props.margin * .5 }
+			]}>
 				{!!props.renderFooter && props.renderFooter()}
-				{props.type === 'loading' && ( <Indicator style={css.footer__loading}/> )}
+				{props.type === 'loading' && (
+					<Indicator style={css.footer__loading}/>
+				)}
 			</View>
 		);
 	}
@@ -104,14 +142,14 @@ export default class InfiniteScroll extends React.Component {
 			<View style={css.viewport}>
 				<FlatList
 					ref={(r) => { this._list = r; }}
-				    data={props.items}
-					keyExtractor={props.keyExtractor ? props.keyExtractor : (item, index) => `item_${index}`}
+					data={props.items}
+					keyExtractor={props.keyExtractor ? props.keyExtractor : (item, index) => `item-${index}`}
 					initialNumToRender={props.pageSize}
-					renderItem={this.rowComponent}
-					ListHeaderComponent={this.headerComponent}
-					ListFooterComponent={this.footerComponent}
+					renderItem={this.renderRow.bind(this)}
+					ListHeaderComponent={this.renderHeader.bind(this)}
+					ListFooterComponent={this.renderFooter.bind(this)}
 					numColumns={props.column}
-					columnWrapperStyle={(props.column > 1) ? { marginLeft: 0 - props.margin } : null}
+					columnWrapperStyle={props.styleRow}
 					debug={props.useDebug}
 					refreshing={props.useRefresh && props.type === 'refresh'}
 					onRefresh={props.useRefresh ? function() { props.load('refresh'); } : null}
@@ -122,11 +160,7 @@ export default class InfiniteScroll extends React.Component {
 							props.load('more');
 						}
 					}}
-				    style={[
-				    	css.list,
-					    { marginTop: 0 - props.margin },
-					    props.style
-				    ]}/>
+					style={[ css.list, props.style, { margin: 0 - props.margin } ]}/>
 			</View>
 		);
 	}

@@ -15,7 +15,7 @@ export default class Indicator extends React.Component {
 
 		return (
 			<View style={css.loading}>
-				<ActivityIndicator animating={true} style={[ css.loading__body, props.style ]}/>
+				<ActivityIndicator animating={true} size="small" style={[ css.loading__body, props.style ]}/>
 			</View>
 		);
 	}
