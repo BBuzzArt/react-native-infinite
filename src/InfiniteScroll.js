@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, FlatList, Dimensions } from 'react-native';
+import { ViewPropTypes, View, FlatList, Dimensions } from 'react-native';
 
 import { Indicator, Error } from './res';
 
@@ -10,26 +10,51 @@ import css from './css';
 export default class InfiniteScroll extends React.Component {
 
 	static propTypes = {
-		items: PropTypes.array,
-	};
+		items: PropTypes.array.isRequired,
+		width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+		pageSize: PropTypes.number,
+		stamp: PropTypes.number,
 
+		useScrollEvent: PropTypes.bool,
+		useRefresh: PropTypes.bool,
+		useFullHeight: PropTypes.bool,
+		useDebug: PropTypes.bool,
+		useWrapRow: PropTypes.bool,
+
+		column: PropTypes.number,
+		endReachedPosition: PropTypes.number,
+		keyExtractor: PropTypes.string,
+
+		type: PropTypes.string,
+		load: PropTypes.func,
+
+		renderRow: PropTypes.func.isRequired,
+		renderHeader: PropTypes.func,
+		renderFooter: PropTypes.func,
+		renderError: PropTypes.func,
+
+		style: ViewPropTypes.style,
+		styleRow: ViewPropTypes.style,
+		styleItem: ViewPropTypes.style,
+	};
 	static defaultProps = {
+		items: null,
 		width: 'auto',
-		pageSize: 10,
+		pageSize: 20,
+		stamp: null, // 강제로 렌더링 하기위한 장치. 현재와 다른값으로 변하면 렌더링하게 된다.
 
 		useScrollEvent: true,
 		useRefresh: true,
+		useFullHeight: true,
 		useDebug: false,
+		useWrapRow: true, // 한줄에 View 컴포넌트로 래핑할것인지에 대하여 정한다. 래핑하면 컬럼의 잔격이 조정된다.
 
-		items: null,
 		column: 1,
-		margin: 0,
+		endReachedPosition: 2,
+		keyExtractor: null,
 
 		type: 'ready', // loading|refresh|ready|end
 		load: function(type) {},
-
-		endReachedPosition: 2,
-		keyExtractor: null,
 
 		renderRow: null,
 		renderHeader: null,
@@ -52,60 +77,65 @@ export default class InfiniteScroll extends React.Component {
 	/***
 	 * LIFE CYCLE AREA
 	 */
-
 	componentWillMount() {
-		this.windowSize = Dimensions.get('window');
-		this.itemSize = this.getItemSize();
+		this.updateSize();
 	}
+	componentWillUpdate() {}
+	shouldComponentUpdate(nextProps) {
+		const { props } = this;
 
-	componentWillUpdate() {
-		this.windowSize = Dimensions.get('window');
-		this.itemSize = this.getItemSize();
+		if (props.items !== nextProps.items) return true;
+		if (props.type !== nextProps.type) return true;
+		if (props.stamp !== nextProps.stamp) return true;
+
+		return false;
 	}
 
 	/***
 	 * FUNCTIONS AREA
 	 */
-
 	getItemSize() {
 		const { props } = this;
 		let width = props.width === 'auto' ? this.windowSize.width : props.width;
 
-		return props.column > 1 ? (width - ((props.column - 1) * (props.margin * 0.5))) / props.column : 'auto';
+		return props.column > 1 ? width / props.column : 'auto';
 	}
 
 	/***
 	 * RENDER AREA
 	 */
-
 	renderRow(o) {
 		const { props } = this;
 
 		if (!(props.renderRow && typeof props.renderRow === 'function')) return null;
 
-		return (
-			<View style={[
-				{ margin: props.margin * .5, width: this.itemSize },
-				props.styleItem
-			]}>
-				{props.renderRow(
-					o.item,
-					o.index,
-					this.itemSize === 'auto' ? this.windowSize.width : this.itemSize
-				)}
-			</View>
-		);
+		if (props.useWrapRow) {
+			return (
+				<View style={[
+					{ width: this.itemSize },
+					props.styleItem
+				]}>
+					{props.renderRow({
+						item: o.item,
+						index: o.index,
+						size: this.itemSize === 'auto' ? this.windowSize.width : this.itemSize
+					})}
+				</View>
+			);
+		} else {
+			return props.renderRow({
+				item: o.item,
+				index: o.index,
+				size: this.itemSize === 'auto' ? this.windowSize.width : this.itemSize
+			});
+		}
 	}
-
 	renderHeader() {
 		const { props } = this;
 
 		if (props.renderHeader) {
 			return (
-				<View style={[
-					css.header,
-					{ margin: props.margin, marginBottom: 0 - props.margin * .5 }
-				]}>
+				<View style={css.header}>
 					{props.renderHeader()}
 				</View>
 			);
@@ -113,15 +143,11 @@ export default class InfiniteScroll extends React.Component {
 
 		return null;
 	}
-
 	renderFooter() {
 		const { props } = this;
 
 		return (
-			<View style={[
-				css.footer,
-				{ margin: props.margin, marginTop: 0 - props.margin * .5 }
-			]}>
+			<View style={css.footer}>
 				{!!props.renderFooter && props.renderFooter()}
 				{props.type === 'loading' && (
 					<Indicator style={css.footer__loading}/>
@@ -129,9 +155,10 @@ export default class InfiniteScroll extends React.Component {
 			</View>
 		);
 	}
-
 	render() {
 		const { props } = this;
+
+		console.warn('RENDER', + new Date());
 
 		// check error
 		if (!(props.items && props.items.length) && props.type === 'error') {
@@ -139,7 +166,10 @@ export default class InfiniteScroll extends React.Component {
 		}
 
 		return (
-			<View style={css.viewport}>
+			<View style={[
+				css.viewport,
+				props.useFullHeight && css.viewport_fullHeight
+			]}>
 				<FlatList
 					ref={(r) => { this._list = r; }}
 					data={props.items}
@@ -155,12 +185,12 @@ export default class InfiniteScroll extends React.Component {
 					onRefresh={props.useRefresh ? function() { props.load('refresh'); } : null}
 					removeClippedSubviews={false}
 					onEndReachedThreshold={props.endReachedPosition}
-					onEndReached={async function() {
+					onEndReached={function() {
 						if (props.useScrollEvent && (props.type === 'ready' || props.type === 'error')) {
 							props.load('more');
 						}
 					}}
-					style={[ css.list, props.style, { margin: 0 - props.margin } ]}/>
+					style={[ css.list, props.style ]}/>
 			</View>
 		);
 	}
@@ -181,6 +211,14 @@ export default class InfiniteScroll extends React.Component {
 			animated: true,
 			...options
 		});
+	}
+
+	/**
+	 * update viewport and block size
+	 */
+	updateSize() {
+		this.windowSize = Dimensions.get('window');
+		this.itemSize = this.getItemSize();
 	}
 
 }
