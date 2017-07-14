@@ -12,5 +12,10 @@ export default StyleSheet.create({
 
 	list: {},
 
+	block: {},
+
+	footer: {},
 	footer__loading: {},
+
+	statusBar: {},
 });

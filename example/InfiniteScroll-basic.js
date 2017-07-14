@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { InfiniteScroll } from '../index';
 
@@ -15,23 +15,25 @@ const items = [
 	{ label: 'darkblue' },
 	{ label: 'violet' },
 ];
+const margin = 2;
 const css = StyleSheet.create({
 	viewport: {
 		flex: 1,
 	},
-	scroll: {
-		marginVertical: -5,
-		marginHorizontal: 5,
+	scroll: {},
+	scrollList: {
+		// paddingHorizontal: margin,
 	},
+	scrollRow: {},
 	block: {
-		height: 80,
-		flex: 1,
+		//flex: 1,
 		overflow: 'hidden',
+		// paddingHorizontal: margin,
+		// paddingTop: margin * 2,
 	},
 	block__wrap: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
+		paddingVertical: 30,
+		alignItems: 'center'
 	},
 	block__text: {},
 });
@@ -42,9 +44,11 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 	constructor(props) {
 		super();
 
+		this._infiniteScroll = null;
+
 		this.state = {
-			items: items,
-			type: 'ready',
+			items: [],
+			type: 'error',
 		};
 	}
 
@@ -68,7 +72,7 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 				await this.setState({ type: 'refresh' });
 				await util.sleep(1000);
 				this.setState({
-					type: 'ready',
+					type: state.type,
 					items: items,
 				});
 				break;
@@ -79,12 +83,9 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 		return (
 			<View style={[
 				css.block,
-				{
-					margin: 5,
-					height: size - 10
-				}
+				{ width: size }
 			]}>
-				<View style={[css.block__wrap, { backgroundColor: item.label } ]}>
+				<View style={[css.block__wrap, { backgroundColor: item.label }]}>
 					<Text style={css.block__text}>{item.label}</Text>
 				</View>
 			</View>
@@ -96,23 +97,37 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 
 		return (
 			<View style={css.viewport}>
+				{/*<InfiniteScroll*/}
+					{/*items={[*/}
+						{/*{ name: 'apple' },*/}
+						{/*{ name: 'banana' },*/}
+						{/*{ name: 'mango' }*/}
+					{/*]}*/}
+					{/*renderRow={({ item, index, size }) => ( <Text>{item.name}</Text> )}*/}
+				{/*/>*/}
+
 				<InfiniteScroll
+					ref={(r) => { this._infiniteScroll = r; }}
 					items={state.items}
 					column={2}
-					pageSize={24}
-					useDebug={false}
-					useWrapRow={false}
+					stamp={25}
+					innerMargin={5}
+					outerMargin={5}
 					type={state.type}
 					load={(type) => this.load(type)}
 					renderRow={(res) => this.renderRow(res)}
-					// renderHeader={() => {
-					// 	return ( <View><Text>Header component</Text></View> );
-					// }}
-					// renderFooter={() => {
-					// 	return ( <View><Text>Footer component</Text></View> );
-					// }}
+					renderHeader={() => <View style={{borderWidth: 1}}><Text>Header component</Text></View>}
+					renderFooter={() => <View style={{borderWidth: 1}}><Text>Footer component</Text></View>}
 					style={css.scroll}
-					styleItem={{}}/>
+					styleList={css.scrollList}
+					styleRow={css.scrollRow}
+				/>
+				<TouchableOpacity
+					onPress={() => {
+						this._infiniteScroll.triggerMessage('warning', 'test messageeeeee');
+					}}>
+					<Text>testtttt</Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}
