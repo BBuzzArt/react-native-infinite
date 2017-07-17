@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ViewPropTypes, View, FlatList, Dimensions, Text } from 'react-native';
 
-import { Indicator, Error, StatusBar } from './res';
+import { Indicator, Error } from './res';
 
 import css from './css';
 
@@ -60,7 +60,8 @@ export default class InfiniteScroll extends React.Component {
 		renderRow: null,
 		renderHeader: null,
 		renderFooter: null,
-		renderError: () => <Error/>,
+		renderError: () => <Error message="Service Error"/>,
+		renderNotFound: () => <Error message="Not found item"/>,
 
 		style: null,
 		styleList: null,
@@ -72,7 +73,6 @@ export default class InfiniteScroll extends React.Component {
 		super(props);
 
 		this._list = null;
-		this._statusBar = null;
 		this.itemSize = 0;
 		this.windowSize = { width: 0, height: 0 };
 	}
@@ -194,14 +194,20 @@ export default class InfiniteScroll extends React.Component {
 	render() {
 		const { props } = this;
 
+		if (!(props.items && props.items.length)) {
+			return props.renderNotFound();
+		}
+
+		if (props.type === 'error') {
+			return props.renderError();
+		}
+
 		return (
 			<View style={[
 				css.viewport,
 				props.style,
 				props.useFullHeight && css.viewport_fullHeight
 			]}>
-				{!(props.items && props.items.length) && props.renderError()}
-
 				<FlatList
 					ref={(r) => { this._list = r; }}
 					data={props.items}
@@ -226,10 +232,6 @@ export default class InfiniteScroll extends React.Component {
 						}
 					}}
 					style={[ css.list, props.styleList ]}/>
-
-				<StatusBar
-					ref={(r) => { this._statusBar = r; }}
-					style={css.statusBar}/>
 			</View>
 		);
 	}
@@ -250,16 +252,6 @@ export default class InfiniteScroll extends React.Component {
 			animated: true,
 			...options
 		});
-	}
-
-	/**
-	 * trigger message
-	 *
-	 * @param {String} color
-	 * @param {String} message
-	 */
-	triggerMessage(color, message) {
-		this._statusBar.open(color, message);
 	}
 
 }
