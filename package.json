@@ -4,7 +4,10 @@
   "description": "Infinite list for react native",
   "private": false,
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "version-patch": "npm version patch",
+    "publish": "npm publish"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BBuzzArt/react-native-infinite.git"
