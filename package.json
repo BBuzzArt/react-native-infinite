@@ -21,9 +21,7 @@
     "url": "https://github.com/BBuzzArt/react-native-infinite/issues"
   },
   "homepage": "https://github.com/BBuzzArt/react-native-infinite#readme",
-  "dependencies": {
-    "jquery": "^3.2.1"
-  },
+  "dependencies": {},
   "directories": {
     "example": "example"
   },
