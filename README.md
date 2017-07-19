@@ -28,7 +28,7 @@ import InfiniteScroll from 'react-native-infinite';
 ```
 
 컴포넌트를 활용한 예제는 다음 소스코드 링크를 참고해주세요.
-- link
+- [InfiniteScroll-basic](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/InfiniteScroll-basic.js)
 - link
 - link
 
@@ -55,7 +55,7 @@ import InfiniteScroll from 'react-native-infinite';
 ### options
 
 | Name | default | Params | Type | Description |
-| :--- | :------ | :--- | :--- | :---------- |
+| :--- | :------ | :----- | :--- | :---------- |
 | column | 1 |  | `number` | 컬럼 수 |
 | innerMargin | 1 |  | `number` | 요소 사이의 간격 |
 | outerMargin | 1 |  | `number` | 목록 외곽의 간격 |
@@ -63,25 +63,43 @@ import InfiniteScroll from 'react-native-infinite';
 | pageSize | 20 |  | `number` | 한번에 표시하는 요소 갯수 |
 | keyExtractor | null |  | `string` | 요소를 구분하는 key값 정의 |
 | type | 'end' |  | `string` | 목록의 상태 (`loading`:로딩중, `refresh`:새로고침 중, `ready`:대기중, `end`:더이상 불러올것이 없는상태) |
-| load | `function(type) {}` | `type` | `function` | 새로고침하거나 더 불러오기할때 실행되는 이벤트. `type`이라는 현재 목록 상태를 참고하여 목록을 직업 갱신할 수 있습니다. `type`은 `props.type`값과 같은 내용입니다. |
+| load | `function()` | `type` | `function` | 새로고침하거나 더 불러오기할때 실행되는 이벤트. `type`이라는 현재 목록 상태를 참고하여 목록을 직업 갱신할 수 있습니다. `type`은 `props.type`값과 같은 내용입니다. |
 
 ### render
 
 | Name | default | Params | Type | Description |
-| :--- | :------ | :--- | :--- | :---------- |
-| renderRow | null | `{item,index,size}` | `function` | 요소 하나를 렌더합니다. 파라메터를 이용하여 컴포넌트를 return 해줘서 요소를 출력합니다.|
+| :--- | :------ | :----- | :--- | :---------- |
+| renderRow | null | `{}` | `function` | 요소 하나를 렌더합니다. 파라메터를 이용하여 컴포넌트를 return 해줘서 요소를 출력합니다.|
 | renderHeader | null |  | `function` | 목록의 상단 렌더합니다. |
 | renderFooter | null |  | `function` | 목록의 하단을 렌더합니다. |
 | renderError | `<Error/>` |  | `function` | 오류가 났을때 렌더합니다.  |
+| renderNotFound | `<Error/>` |  | `function` | 오류가 났을때 렌더합니다.  |
 
 ### style
 
 | Name | default | Type | Description |
 | :--- | :------ | :--- | :---------- |
-| style | null |  | `style` | 컴포넌트의 가장 바깥의 영역 |
-| styleList | null |  | `style` | 목록 |
-| styleRow | null |  | `style` | 목록에서 하나의 줄 |
-| styleBlock | null |  | `style` | 목록에서 하나의 요소 |
+| style | null | `style` | 컴포넌트의 가장 바깥의 영역 |
+| styleList | null | `style` | 목록 |
+| styleRow | null | `style` | 목록에서 하나의 줄 |
+| styleBlock | null | `style` | 목록에서 하나의 요소 |
 
 
 ## Methods
+
+### scrollToOffset
+원하는 위치로 스크롤을 이동합니다.
+
+```
+/**
+ * @param {Object} options
+ * @param {int} options.x : 이동하려는 x축 값
+ * @param {int} options.y : 이동하려는 y축 값
+ * @param {int} options.animated : 애니메이션 사용유무
+ */
+infiniteScrollRef.scrollToOffset({
+	x: 0,
+    y: 0,
+    animated: true
+});
+```
