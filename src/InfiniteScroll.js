@@ -86,8 +86,6 @@ export default class InfiniteScroll extends React.Component {
 	componentWillUpdate(nextProps) {
 		const { props } = this;
 
-		console.log('hello');
-
 		if (
 			nextProps.column !== props.column ||
 			nextProps.innerMargin !== props.innerMargin ||

@@ -1,6 +1,6 @@
 {
   "name": "react-native-infinite",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Infinite list for react native",
   "private": false,
   "main": "index.js",
@@ -12,17 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/BBuzzArt/react-native-infinite.git"
   },
-  "author": {
-    "name": "BBuzzArt",
-    "email": "tech@bbuzzart.com",
-    "url": "https://bbuzzart.com"
-  },
+  "author": "BBuzzArt <tech@bbuzzart.com> (https://bbuzzart.com)",
   "contributors": [
-    {
-      "name": "redgoose",
-      "email": "scripter@me.com",
-      "url": "http://redgoose.me"
-    }
+    "redgoose <scripter@me.com> (http://redgoose.me)"
   ],
   "license": "MIT",
   "bugs": {
@@ -31,5 +23,9 @@
   "homepage": "https://github.com/BBuzzArt/react-native-infinite#readme",
   "dependencies": {
     "jquery": "^3.2.1"
-  }
+  },
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {}
 }
