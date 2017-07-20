@@ -17,6 +17,15 @@
     "redgoose <scripter@me.com> (http://redgoose.me)"
   ],
   "license": "MIT",
+  "keywords": [
+    "react native",
+    "react",
+    "list",
+    "infinite",
+    "item list",
+    "block list",
+    "index"
+  ],
   "bugs": {
     "url": "https://github.com/BBuzzArt/react-native-infinite/issues"
   },
