@@ -13,7 +13,6 @@ export default class InfiniteScroll extends React.Component {
 		items: PropTypes.array.isRequired,
 		width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 		itemHeight: PropTypes.number,
-		stamp: PropTypes.number,
 
 		useScrollEvent: PropTypes.bool,
 		useRefresh: PropTypes.bool,
@@ -43,7 +42,6 @@ export default class InfiniteScroll extends React.Component {
 		items: null,
 		width: 'auto',
 		itemHeight: null,
-		stamp: null, // 강제로 렌더링 하기위한 장치. 현재와 다른값으로 변하면 렌더링하게 된다.
 
 		useScrollEvent: true,
 		useRefresh: true,
@@ -99,7 +97,6 @@ export default class InfiniteScroll extends React.Component {
 
 		if (props.items !== nextProps.items) return true;
 		if (props.type !== nextProps.type) return true;
-		if (props.stamp !== nextProps.stamp) return true;
 
 		return false;
 	}

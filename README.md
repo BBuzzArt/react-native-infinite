@@ -52,7 +52,6 @@ import InfiniteScroll from 'react-native-infinite';
 | items | null | `array` | 목록이 되는 배열 형태의 데이터를 넣습니다. 이 prop은 *필수값*입니다. |
 | width | 'auto' | `string|number` | 목록 영역의 가로사이즈 |
 | itemHeight | null | `number` | 아이템의 높이 |
-| stamp | null | `number` | 일부 prop(`items`, `type`)값을 제외한 값이 변하더라도 렌더가 되지 않습니다. 만약 다시 렌더하고 싶다면 현재와 다른 `stamp`값을 바꿔주세요. |
 
 ### use
 

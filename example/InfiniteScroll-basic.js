@@ -98,7 +98,6 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 					items={state.items}
 					itemHeight={60}
 					column={2}
-					stamp={25}
 					innerMargin={5}
 					outerMargin={10}
 					type={state.type}
@@ -110,6 +109,13 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 					styleList={css.scrollList}
 					styleRow={css.scrollRow}
 				/>
+				{/*<View style={{ borderWidth: 1, paddingVertical: 5 }}>*/}
+					{/*<TouchableOpacity onPress={() => {*/}
+						{/*this._infiniteScroll.forceUpdate();*/}
+					{/*}}>*/}
+						{/*<Text>CALLLLLL</Text>*/}
+					{/*</TouchableOpacity>*/}
+				{/*</View>*/}
 			</View>
 		);
 	}
