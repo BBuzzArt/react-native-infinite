@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { InfiniteScroll } from '../index';
 
@@ -23,10 +23,13 @@ const css = StyleSheet.create({
 	scroll: {},
 	scrollList: {},
 	scrollRow: {},
-	block: {},
+	block: {
+		flex: 1,
+	},
 	block__wrap: {
-		paddingVertical: 30,
-		alignItems: 'center'
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	block__text: {},
 });
@@ -90,22 +93,14 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 
 		return (
 			<View style={css.viewport}>
-				{/*<InfiniteScroll*/}
-					{/*items={[*/}
-						{/*{ name: 'apple' },*/}
-						{/*{ name: 'banana' },*/}
-						{/*{ name: 'mango' }*/}
-					{/*]}*/}
-					{/*renderRow={({ item, index, size }) => ( <Text>{item.name}</Text> )}*/}
-				{/*/>*/}
-
 				<InfiniteScroll
 					ref={(r) => { this._infiniteScroll = r; }}
 					items={state.items}
+					itemHeight={60}
 					column={2}
 					stamp={25}
 					innerMargin={5}
-					outerMargin={0}
+					outerMargin={10}
 					type={state.type}
 					load={(type) => this.load(type)}
 					renderRow={(res) => this.renderRow(res)}
@@ -115,12 +110,6 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 					styleList={css.scrollList}
 					styleRow={css.scrollRow}
 				/>
-				{/*<TouchableOpacity*/}
-					{/*onPress={() => {*/}
-						{/*//this._infiniteScroll.triggerMessage('warning', 'test &68947957823503');*/}
-					{/*}}>*/}
-					{/*<Text>open message</Text>*/}
-				{/*</TouchableOpacity>*/}
 			</View>
 		);
 	}

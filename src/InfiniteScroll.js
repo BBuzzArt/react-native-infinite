@@ -12,6 +12,7 @@ export default class InfiniteScroll extends React.Component {
 	static propTypes = {
 		items: PropTypes.array.isRequired,
 		width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+		itemHeight: PropTypes.number,
 		stamp: PropTypes.number,
 
 		useScrollEvent: PropTypes.bool,
@@ -41,6 +42,7 @@ export default class InfiniteScroll extends React.Component {
 	static defaultProps = {
 		items: null,
 		width: 'auto',
+		itemHeight: null,
 		stamp: null, // 강제로 렌더링 하기위한 장치. 현재와 다른값으로 변하면 렌더링하게 된다.
 
 		useScrollEvent: true,
@@ -56,6 +58,7 @@ export default class InfiniteScroll extends React.Component {
 		keyExtractor: null,
 		type: 'end', // loading|refresh|ready|end|error
 		load: function(type) {},
+		getItemLayout: null,
 
 		renderRow: null,
 		renderHeader: null,
@@ -72,14 +75,10 @@ export default class InfiniteScroll extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this._list = null;
+		this.list = null;
 		this.itemSize = 0;
 		this.windowSize = { width: 0, height: 0 };
 	}
-
-	/**
-	 * LIFE CYCLE AREA
-	 */
 	componentWillMount() {
 		this.updateSize(this.props);
 	}
@@ -154,7 +153,8 @@ export default class InfiniteScroll extends React.Component {
 				{
 					width: this.itemSize, marginLeft: this.getInnerMargin(),
 					marginTop: (props.column <= o.index) ? props.innerMargin : 0,
-				}
+				},
+				props.itemHeight && { height: props.itemHeight },
 			]}>
 				{props.renderRow({
 					item: o.item,
@@ -194,10 +194,12 @@ export default class InfiniteScroll extends React.Component {
 	render() {
 		const { props } = this;
 
+		// check item count
 		if (!(props.items && props.items.length)) {
 			return props.renderNotFound();
 		}
 
+		// check type `error`
 		if (props.type === 'error') {
 			return props.renderError();
 		}
@@ -209,10 +211,11 @@ export default class InfiniteScroll extends React.Component {
 				props.useFullHeight && css.viewport_fullHeight
 			]}>
 				<FlatList
-					ref={(r) => { this._list = r; }}
+					ref={(r) => { this.list = r; }}
 					data={props.items}
-					keyExtractor={props.keyExtractor ? props.keyExtractor : (item, index) => `item-${index}`}
+					keyExtractor={props.keyExtractor ? props.keyExtractor : (item, index) => `item_${index}`}
 					initialNumToRender={props.pageSize}
+					getItemLayout={props.getItemLayout ? (data, index) => props.getItemLayout(data, index) : null}
 					renderItem={this.renderRow.bind(this)}
 					ListHeaderComponent={this.renderHeader.bind(this)}
 					ListFooterComponent={this.renderFooter.bind(this)}
@@ -221,37 +224,18 @@ export default class InfiniteScroll extends React.Component {
 						{ marginLeft: 0 - this.getInnerMargin() + props.outerMargin },
 						props.styleRow
 					]}
-					debug={props.useDebug}
 					refreshing={props.useRefresh && props.type === 'refresh'}
 					onRefresh={props.useRefresh ? function() { props.load('refresh'); } : null}
-					removeClippedSubviews={false}
 					onEndReachedThreshold={props.endReachedPosition}
 					onEndReached={function() {
 						if (props.useScrollEvent && props.type === 'ready') {
 							props.load('more');
 						}
 					}}
+					debug={props.useDebug}
 					style={[ css.list, props.styleList ]}/>
 			</View>
 		);
-	}
-
-	/**
-	 * METHOD AREA
-	 */
-
-	/**
-	 * scroll to offset
-	 *
-	 * @param {Object} options
-	 */
-	scrollToOffset(options={}) {
-		this._list.scrollToOffset({
-			x: 0,
-			y: 0,
-			animated: true,
-			...options
-		});
 	}
 
 }
