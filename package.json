@@ -1,6 +1,6 @@
 {
   "name": "react-native-infinite",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Infinite list for react native",
   "private": false,
   "main": "index.js",
