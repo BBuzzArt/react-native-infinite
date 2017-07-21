@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ViewPropTypes, View, FlatList, Dimensions, Text } from 'react-native';
+import { ViewPropTypes, View, FlatList, Dimensions } from 'react-native';
 
 import { Indicator, Error } from './res';
 
@@ -83,11 +83,13 @@ export default class InfiniteScroll extends React.Component {
 	componentWillUpdate(nextProps) {
 		const { props } = this;
 
+		// checking for updateSize
 		if (
 			nextProps.column !== props.column ||
 			nextProps.innerMargin !== props.innerMargin ||
 			nextProps.outerMargin !== props.outerMargin ||
-			nextProps.width !== props.width
+			(nextProps.width !== 'auto' && nextProps.width !== props.width) ||
+			(nextProps.width === 'auto' && this.windowSize !== Dimensions.get('window'))
 		) {
 			this.updateSize(nextProps);
 		}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import { InfiniteScroll } from '../index';
 
@@ -15,7 +15,6 @@ const items = [
 	{ label: 'darkblue' },
 	{ label: 'violet' },
 ];
-const margin = 2;
 const css = StyleSheet.create({
 	viewport: {
 		flex: 1,
@@ -48,6 +47,8 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 		};
 	}
 
+	componentDidMount() {}
+
 	async load(type) {
 		const { props, state } = this;
 
@@ -79,7 +80,7 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 		return (
 			<View style={[
 				css.block,
-				{ width: size }
+				{ width: size, height: size }
 			]}>
 				<View style={[css.block__wrap, { backgroundColor: item.label }]}>
 					<Text style={css.block__text}>{item.label}</Text>
@@ -109,13 +110,6 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 					styleList={css.scrollList}
 					styleRow={css.scrollRow}
 				/>
-				{/*<View style={{ borderWidth: 1, paddingVertical: 5 }}>*/}
-					{/*<TouchableOpacity onPress={() => {*/}
-						{/*this._infiniteScroll.forceUpdate();*/}
-					{/*}}>*/}
-						{/*<Text>CALLLLLL</Text>*/}
-					{/*</TouchableOpacity>*/}
-				{/*</View>*/}
 			</View>
 		);
 	}
