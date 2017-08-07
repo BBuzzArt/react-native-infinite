@@ -24,7 +24,7 @@ export default class InfiniteScroll extends React.Component {
 		outerMargin: PropTypes.number,
 		endReachedPosition: PropTypes.number,
 		pageSize: PropTypes.number,
-		keyExtractor: PropTypes.string,
+		keyExtractor: PropTypes.func,
 		type: PropTypes.string,
 		load: PropTypes.func,
 
