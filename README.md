@@ -69,6 +69,7 @@ import InfiniteScroll from 'react-native-infinite';
 | column | 1 |  | `number` | 컬럼 수 |
 | innerMargin | 1 |  | `number` | 요소 사이의 간격 |
 | outerMargin | 1 |  | `number` | 목록 외곽의 간격 |
+| removeClippedSubviews | true |  | `boolean` | 안보이는 요소는 언마운트할지에 대한 여부 |
 | endReachedPosition | 2 |  | `number` | 요소 더 불러오기 이벤트 시작하는 지점 |
 | pageSize | 20 |  | `number` | 한번에 표시하는 요소 갯수 |
 | keyExtractor | null |  | `string` | 요소를 구분하는 key값 정의 |

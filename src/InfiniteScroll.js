@@ -22,6 +22,7 @@ export default class InfiniteScroll extends React.Component {
 		column: PropTypes.number,
 		innerMargin: PropTypes.number,
 		outerMargin: PropTypes.number,
+		removeClippedSubviews: PropTypes.bool,
 		endReachedPosition: PropTypes.number,
 		pageSize: PropTypes.number,
 		keyExtractor: PropTypes.func,
@@ -51,6 +52,7 @@ export default class InfiniteScroll extends React.Component {
 		column: 1,
 		innerMargin: 0,
 		outerMargin: 0,
+		removeClippedSubviews: true,
 		endReachedPosition: 2,
 		pageSize: 20,
 		keyExtractor: null,
@@ -226,6 +228,7 @@ export default class InfiniteScroll extends React.Component {
 					refreshing={props.useRefresh && props.type === 'refresh'}
 					onRefresh={props.useRefresh ? function() { props.load('refresh'); } : null}
 					onEndReachedThreshold={props.endReachedPosition}
+					removeClippedSubviews={props.removeClippedSubviews}
 					onEndReached={function() {
 						if (props.useScrollEvent && props.type === 'ready') {
 							props.load('more');
