@@ -195,14 +195,14 @@ export default class InfiniteScroll extends React.Component {
 	render() {
 		const { props } = this;
 
-		// check item count
-		if (!(props.items && props.items.length)) {
-			return props.renderNotFound();
-		}
-
 		// check type `error`
 		if (props.type === 'error') {
 			return props.renderError();
+		}
+
+		// check item count
+		if (!(props.items && props.items.length)) {
+			return props.renderNotFound();
 		}
 
 		return (
