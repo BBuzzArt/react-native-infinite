@@ -39,8 +39,8 @@ import InfiniteScroll from 'react-native-infinite';
 
 컴포넌트를 활용한 예제는 다음 소스코드 링크를 참고해주세요.
 - [InfiniteScroll-basic](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/InfiniteScroll-basic.js)
-- link
-- link
+- [InfiniteScroll-resize](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/InfiniteScroll-resize.js)
+- [InfiniteScroll-scroll](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/InfiniteScroll-scroll.js)
 
 
 ## Properties
@@ -155,5 +155,5 @@ this.infiniteScrollRef.scrollToOffset({
 
 ## TODO
 
-- [ ] 다양한 예제
+- [x] 다양한 예제
 - [ ] 랜덤사이즈 블럭 지원하는 컴포넌트

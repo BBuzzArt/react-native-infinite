@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import css from './css';
@@ -6,6 +7,9 @@ import css from './css';
 
 export default class Error extends React.Component {
 
+	static propTypes = {
+		message: PropTypes.string,
+	};
 	static defaultProps = {
 		message: 'error message',
 		onReload: null,

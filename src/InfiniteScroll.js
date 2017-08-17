@@ -78,6 +78,13 @@ export default class InfiniteScroll extends React.Component {
 		this.list = null;
 		this.itemSize = 0;
 		this.windowSize = { width: 0, height: 0 };
+		this.binds = {
+			onEndReached: this.onEndReached.bind(this),
+			renderRow: this.renderRow.bind(this),
+			renderHeader: this.renderHeader.bind(this),
+			renderFooter: this.renderFooter.bind(this),
+			getItemLayout: this.getItemLayout.bind(this),
+		};
 	}
 	componentWillMount() {
 		this.updateSize(this.props);
@@ -139,6 +146,40 @@ export default class InfiniteScroll extends React.Component {
 	updateSize(props) {
 		this.windowSize = Dimensions.get('window');
 		this.itemSize = this.getItemSize(props);
+	}
+
+	/**
+	 * on end reached
+	 */
+	onEndReached() {
+		const { props } = this;
+
+		if (props.useScrollEvent && props.type === 'ready') {
+			props.load('more');
+		}
+	}
+
+	/**
+	 * get item layout
+	 *
+	 * @param {Array} data
+	 * @param {Number} index
+	 * @return {Object}
+	 */
+	getItemLayout(data, index) {
+		const { props } = this;
+
+		if (props.getItemLayout) {
+			return props.getItemLayout(data, index);
+		} else {
+			if (props.itemHeight) {
+				return {
+					length: props.itemHeight,
+					offset: ((props.itemHeight + props.innerMargin) * index) + (props.outerMargin),
+					index
+				};
+			}
+		}
 	}
 
 	/**
@@ -216,24 +257,20 @@ export default class InfiniteScroll extends React.Component {
 					data={props.items}
 					keyExtractor={props.keyExtractor ? props.keyExtractor : (item, index) => `item_${index}`}
 					initialNumToRender={props.pageSize}
-					getItemLayout={props.getItemLayout ? (data, index) => props.getItemLayout(data, index) : null}
-					renderItem={this.renderRow.bind(this)}
-					ListHeaderComponent={this.renderHeader.bind(this)}
-					ListFooterComponent={this.renderFooter.bind(this)}
+					getItemLayout={(props.getItemLayout || props.itemHeight) ? this.binds.getItemLayout : null}
+					renderItem={this.binds.renderRow}
+					ListHeaderComponent={this.binds.renderHeader}
+					ListFooterComponent={this.binds.renderFooter}
 					numColumns={props.column}
 					columnWrapperStyle={props.column > 1 && [
 						{ marginLeft: 0 - this.getInnerMargin() + props.outerMargin },
 						props.styleRow
 					]}
 					refreshing={props.useRefresh && props.type === 'refresh'}
-					onRefresh={props.useRefresh ? function() { props.load('refresh'); } : null}
+					onRefresh={props.useRefresh ? function() { props.load('refresh') } : null}
 					onEndReachedThreshold={props.endReachedPosition}
 					removeClippedSubviews={props.removeClippedSubviews}
-					onEndReached={function() {
-						if (props.useScrollEvent && props.type === 'ready') {
-							props.load('more');
-						}
-					}}
+					onEndReached={this.binds.onEndReached}
 					debug={props.useDebug}
 					style={[ css.list, props.styleList ]}/>
 			</View>

@@ -19,7 +19,8 @@ export default StyleSheet.create({
 	},
 	error__message: {
 		marginBottom: 20,
-		fontSize: 16,
+		fontSize: 14,
+		color: '#222',
 	},
 	error__reload: {
 		paddingHorizontal: 20,
@@ -30,30 +31,5 @@ export default StyleSheet.create({
 	error__reloadText: {
 		fontSize: 12,
 	},
-
-	// // ./StatusBar.js
-	// statusBar: {
-	// 	position: 'absolute',
-	// 	left: 0,
-	// 	right: 0,
-	// },
-	// statusBar__bar: {
-	// 	flex: 1,
-	// 	backgroundColor: 'rgba(204,204,204,.95)',
-	// 	paddingHorizontal: 20,
-	// 	justifyContent: 'center',
-	// },
-	// statusBar__bar_warning: {
-	// 	backgroundColor: 'rgba(208,2,27,.95)'
-	// },
-	// statusBar__bar_success: {
-	// 	backgroundColor: 'rgba(65,117,5,.95)'
-	// },
-	// statusBar__barText: {
-	// 	textAlign: 'center',
-	// 	fontSize: 12,
-	// 	color: '#fff',
-	// 	fontWeight: '600',
-	// },
 
 });

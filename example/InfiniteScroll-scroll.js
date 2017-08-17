@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { InfiniteScroll } from '../index';
 
@@ -31,6 +31,27 @@ const css = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	block__text: {},
+	nav: {
+		flexDirection: 'row',
+		paddingVertical: 10,
+		paddingHorizontal: 5,
+		borderTopWidth: StyleSheet.hairlineWidth,
+		borderTopColor: 'rgba(0,0,0,.2)',
+		backgroundColor: '#f9f9f9',
+	},
+	button: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		paddingVertical: 10,
+		marginHorizontal: 5,
+		backgroundColor: '#999'
+	},
+	button__text: {
+		fontSize: 12,
+		color: '#fff',
+		fontWeight: '600',
+	},
 });
 
 
@@ -40,14 +61,11 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 		super();
 
 		this._infiniteScroll = null;
-
 		this.state = {
 			items: items,
 			type: 'ready',
 		};
 	}
-
-	componentDidMount() {}
 
 	async load(type) {
 		const { props, state } = this;
@@ -97,18 +115,32 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 				<InfiniteScroll
 					ref={(r) => { this._infiniteScroll = r; }}
 					items={state.items}
-					itemHeight={60}
+					itemHeight={100}
 					column={2}
-					innerMargin={5}
+					innerMargin={10}
 					outerMargin={10}
 					type={state.type}
 					load={(type) => this.load(type)}
 					renderRow={(res) => this.renderRow(res)}
-					renderHeader={() => <View style={{borderWidth: 1}}><Text>Header component</Text></View>}
-					renderFooter={() => <View style={{borderWidth: 1}}><Text>Footer component</Text></View>}
 					style={css.scroll}
 					styleList={css.scrollList}
 					styleRow={css.scrollRow}/>
+				<View style={css.nav}>
+					<TouchableOpacity
+						onPress={() => {
+							this._infiniteScroll.list.scrollToOffset({ offset: 0 });
+						}}
+						style={css.button}>
+						<Text style={css.button__text}>Scroll to top</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {
+							this._infiniteScroll.list.scrollToIndex({ index: 4 });
+						}}
+						style={css.button}>
+						<Text style={css.button__text}>Scroll to 4 line</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		);
 	}

@@ -27,7 +27,7 @@ export class ResizeEvent {
 		console.log('on change inside');
 	}
 
-	destory() {
+	destroy() {
 		Dimensions.removeEventListener('change', this._onChange);
 	}
 }

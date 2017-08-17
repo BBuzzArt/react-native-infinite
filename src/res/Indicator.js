@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, ViewPropTypes } from 'react-native';
 
 import css from './css';
 
 
 export default class Indicator extends React.Component {
 
+	static propTypes = {
+		style: ViewPropTypes.style,
+	};
 	static defaultProps = {
 		style: null
 	};
