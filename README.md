@@ -164,3 +164,12 @@ this.infiniteScrollRef.scrollToOffset({
 
 - [x] 다양한 예제
 - [ ] 랜덤사이즈 블럭 지원하는 컴포넌트
+
+
+----
+
+
+Powered by [BBuzzArt](http://bbuzzart.com)
+
+- iOS: https://itunes.apple.com/us/app/bbuzzart-new-art-in-your-hand/id868618986
+- android: https://play.google.com/store/apps/details?id=net.bbuzzart.android
