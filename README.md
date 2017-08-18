@@ -11,6 +11,13 @@ React Native infinite는 쉽게 목록형 데이터를 표현하는 래퍼(Wrapp
 - redux와 함께 사용하기 적합한 목록
 
 
+## Demo
+
+[Expo](https://expo.io) 앱을 통하여 데모를 확인해볼 수 있습니다. 데모는 다음링크를 참고하세요.
+
+https://expo.io/@bbuzzart/react-native-infinite
+
+
 ## Installation
 cli로 설치할 프로젝트에서 다음과 같은 명령을 실행하여 디펜더시를 추가합니다.
 
@@ -38,9 +45,9 @@ import InfiniteScroll from 'react-native-infinite';
 ```
 
 컴포넌트를 활용한 예제는 다음 소스코드 링크를 참고해주세요.
-- [InfiniteScroll-basic](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/InfiniteScroll-basic.js)
-- [InfiniteScroll-resize](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/InfiniteScroll-resize.js)
-- [InfiniteScroll-scroll](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/InfiniteScroll-scroll.js)
+- [InfiniteScroll-basic](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/src/InfiniteScroll-basic.js)
+- [InfiniteScroll-resize](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/src/InfiniteScroll-resize.js)
+- [InfiniteScroll-scroll](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/src/InfiniteScroll-scroll.js)
 
 
 ## Properties

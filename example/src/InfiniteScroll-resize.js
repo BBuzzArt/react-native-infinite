@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-
-import { InfiniteScroll } from '../index';
+import { InfiniteScroll } from 'react-native-infinite';
 
 import * as util from './util';
 
