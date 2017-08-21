@@ -32,7 +32,7 @@ cli로 설치할 프로젝트에서 다음과 같은 명령을 실행하여 디�
 다음 소스코드는 가장 기본적인 형태의 예제입니다.
 
 ```
-import InfiniteScroll from 'react-native-infinite';
+import { InfiniteScroll } from 'react-native-infinite';
 
 <InfiniteScroll
 	items={[
