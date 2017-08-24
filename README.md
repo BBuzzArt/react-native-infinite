@@ -136,9 +136,9 @@ _example)_
 // 가장 아래쪽으로 스크롤 이동
 this.infiniteScrollRef.list.scrollToEnd();
 
-// y값의 위치로 스크롤 이동
+// offset값의 위치로 스크롤 이동
 this.infiniteScrollRef.list.scrollToOffset({
-
+	offset: 20,
 });
 ```
 
@@ -148,13 +148,11 @@ this.infiniteScrollRef.list.scrollToOffset({
 ```
 /**
  * @param {Object} options
- * @param {int} options.x : 이동하려는 x축 값
- * @param {int} options.y : 이동하려는 y축 값
+ * @param {int} options.offset : 이동하려는 위치 offset 값
  * @param {int} options.animated : 애니메이션 사용유무
  */
-this.infiniteScrollRef.scrollToOffset({
-	x: 0,
-	y: 0,
+this.infiniteScrollRef.list.scrollToOffset({
+	offset: 0,
 	animated: true
 });
 ```
