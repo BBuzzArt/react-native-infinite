@@ -193,7 +193,8 @@ export default class InfiniteScroll extends React.Component {
 				css.block,
 				props.styleBlock,
 				{
-					width: this.itemSize, marginLeft: this.getInnerMargin(),
+					width: this.itemSize,
+					marginLeft: this.getInnerMargin(),
 					marginTop: (props.column <= o.index) ? props.innerMargin : 0,
 				},
 				props.itemHeight && { height: props.itemHeight },
