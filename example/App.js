@@ -37,6 +37,14 @@ class App extends React.Component {
 							<Text style={css.item__text}>Scroll / scroll event method</Text>
 						</View>
 					</TouchableHighlight>
+					<TouchableHighlight
+						activeOpacity={1}
+						underlayColor="rgba(0,0,0,.01)"
+						onPress={() => props.navigation.navigate('ExampleGrid')}>
+						<View style={css.item}>
+							<Text style={css.item__text}>Grid / random size blocks</Text>
+						</View>
+					</TouchableHighlight>
 				</ScrollView>
 			</View>
 		);
@@ -75,6 +83,7 @@ export default StackNavigator({
 	ExampleBasic: { screen: src.ExampleBasic, navigationOptions: { title: 'Basic', headerStyle: css.headerStyle } },
 	ExampleResize: { screen: src.ExampleResize, navigationOptions: { title: 'Resize', headerStyle: css.headerStyle } },
 	ExampleScroll: { screen: src.ExampleScroll, navigationOptions: { title: 'Scroll', headerStyle: css.headerStyle } },
+	ExampleGrid: { screen: src.ExampleGrid, navigationOptions: { title: 'Grid', headerStyle: css.headerStyle } },
 
 }, {
 	cardStyle: css.cardStyle,

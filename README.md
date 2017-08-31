@@ -48,6 +48,7 @@ import { InfiniteScroll } from 'react-native-infinite';
 - [InfiniteScroll-basic](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/src/InfiniteScroll-basic.js)
 - [InfiniteScroll-resize](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/src/InfiniteScroll-resize.js)
 - [InfiniteScroll-scroll](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/src/InfiniteScroll-scroll.js)
+- [InfiniteScroll-grid](https://github.com/BBuzzArt/react-native-infinite/blob/master/example/src/InfiniteScroll-grid.js)
 
 
 ## Properties
@@ -156,12 +157,6 @@ this.infiniteScrollRef.list.scrollToOffset({
 	animated: true
 });
 ```
-
-
-## TODO
-
-- [x] 다양한 예제
-- [ ] 랜덤사이즈 블럭 지원하는 컴포넌트
 
 
 ----
