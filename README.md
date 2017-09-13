@@ -158,6 +158,17 @@ this.infiniteScrollRef.list.scrollToOffset({
 });
 ```
 
+### re render
+컬럼을 변경하게 되면 `FlatList`에서 오류가 발생됩니다. state로 컬럼 변경이 불가능해 보입니다. `reRender()`메서드를 사용하면 `FlatList` 컴포넌트를 삭제하고 다시 마운트를 합니다.
+
+> #### 주의
+> 
+> 컴포넌트가 순간적으로 삭제되기 때문에 스크롤 위치가 이동하게 됩니다.
+
+```
+this.infiniteScrollRef.reRender();
+```
+
 
 ----
 

@@ -75,6 +75,9 @@ export default class InfiniteScroll extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			blank: false,
+		};
 		this.list = null;
 		this.itemSize = 0;
 		this.windowSize = { width: 0, height: 0 };
@@ -103,14 +106,16 @@ export default class InfiniteScroll extends React.Component {
 			this.updateSize(nextProps);
 		}
 	}
-	shouldComponentUpdate(nextProps) {
-		const { props } = this;
+	shouldComponentUpdate(nextProps, nextState) {
+		const { props, state } = this;
 
+		if (state.blank !== nextState.blank) return true;
 		if (props.items !== nextProps.items) return true;
 		if (props.type !== nextProps.type) return true;
 
 		return false;
 	}
+
 
 	/**
 	 * FUNCTIONS AREA
@@ -182,6 +187,7 @@ export default class InfiniteScroll extends React.Component {
 		}
 	}
 
+
 	/**
 	 * RENDER AREA
 	 */
@@ -235,7 +241,7 @@ export default class InfiniteScroll extends React.Component {
 		);
 	}
 	render() {
-		const { props } = this;
+		const { props, state } = this;
 
 		// check type `error`
 		if (props.type === 'error') {
@@ -253,29 +259,46 @@ export default class InfiniteScroll extends React.Component {
 				props.style,
 				props.useFullHeight && css.viewport_fullHeight
 			]}>
-				<FlatList
-					ref={(r) => { this.list = r; }}
-					data={props.items}
-					keyExtractor={props.keyExtractor ? props.keyExtractor : (item, index) => `item_${index}`}
-					initialNumToRender={props.pageSize}
-					getItemLayout={(props.getItemLayout || props.itemHeight) ? this.binds.getItemLayout : null}
-					renderItem={this.binds.renderRow}
-					ListHeaderComponent={this.binds.renderHeader}
-					ListFooterComponent={this.binds.renderFooter}
-					numColumns={props.column}
-					columnWrapperStyle={props.column > 1 && [
-						{ marginLeft: 0 - this.getInnerMargin() + props.outerMargin },
-						props.styleRow
-					]}
-					refreshing={props.useRefresh && props.type === 'refresh'}
-					onRefresh={props.useRefresh ? function() { props.load('refresh') } : null}
-					onEndReachedThreshold={props.endReachedPosition}
-					removeClippedSubviews={props.removeClippedSubviews}
-					onEndReached={this.binds.onEndReached}
-					debug={props.useDebug}
-					style={[ css.list, props.styleList ]}/>
+				{state.blank ? null : (
+					<FlatList
+						ref={(r) => { this.list = r; }}
+						data={props.items}
+						keyExtractor={props.keyExtractor ? props.keyExtractor : (item, index) => `item_${index}`}
+						initialNumToRender={props.pageSize}
+						getItemLayout={(props.getItemLayout || props.itemHeight) ? this.binds.getItemLayout : null}
+						renderItem={this.binds.renderRow}
+						ListHeaderComponent={this.binds.renderHeader}
+						ListFooterComponent={this.binds.renderFooter}
+						numColumns={props.column}
+						columnWrapperStyle={props.column > 1 && [
+							{ marginLeft: 0 - this.getInnerMargin() + props.outerMargin },
+							props.styleRow
+						]}
+						refreshing={props.useRefresh && props.type === 'refresh'}
+						onRefresh={props.useRefresh ? function() { props.load('refresh') } : null}
+						onEndReachedThreshold={props.endReachedPosition}
+						removeClippedSubviews={props.removeClippedSubviews}
+						onEndReached={this.binds.onEndReached}
+						debug={props.useDebug}
+						style={[ css.list, props.styleList ]}/>
+				)}
 			</View>
 		);
+	}
+
+
+	/**
+	 * METHOD AREA
+	 */
+
+	/**
+	 * re render
+	 */
+	reRender() {
+		this.updateSize(this.props);
+		this.setState({ blank: true }, () => {
+			this.setState({ blank: false });
+		});
 	}
 
 }
