@@ -38,6 +38,8 @@ export default class InfiniteScroll extends React.Component {
 		styleList: ViewPropTypes.style,
 		styleRow: ViewPropTypes.style,
 		styleBlock: ViewPropTypes.style,
+		styleHeader: ViewPropTypes.style,
+		styleFooter: ViewPropTypes.style,
 	};
 	static defaultProps = {
 		items: null,
@@ -70,6 +72,8 @@ export default class InfiniteScroll extends React.Component {
 		styleList: null,
 		styleRow: null,
 		styleBlock: null,
+		styleHeader: null,
+		styleFooter: null,
 	};
 
 	constructor(props) {
@@ -219,7 +223,8 @@ export default class InfiniteScroll extends React.Component {
 		return (
 			<View style={[
 				css.header,
-				!!props.outerMargin && { marginBottom: props.outerMargin }
+				!!props.outerMargin && { marginBottom: props.outerMargin },
+				props.styleHeader
 			]}>
 				{!!props.renderHeader && props.renderHeader()}
 			</View>
@@ -231,7 +236,8 @@ export default class InfiniteScroll extends React.Component {
 		return (
 			<View style={[
 				css.footer,
-				!!props.outerMargin && { marginTop: props.outerMargin }
+				!!props.outerMargin && { marginTop: props.outerMargin },
+				props.styleFooter
 			]}>
 				{!!props.renderFooter && props.renderFooter()}
 				{props.type === 'loading' && (
