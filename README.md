@@ -103,6 +103,8 @@ import { InfiniteScroll } from 'react-native-infinite';
 | styleList | null | `style` | 목록 |
 | styleRow | null | `style` | 목록에서 하나의 줄 |
 | styleBlock | null | `style` | 목록에서 하나의 요소 |
+| styleHeader | null | `style` | 헤더영역 |
+| styleFooter | null | `style` | 푸터영역 |
 
 
 ## API
