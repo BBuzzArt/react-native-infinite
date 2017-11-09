@@ -58,7 +58,7 @@ import { InfiniteScroll } from 'react-native-infinite';
 | Name | default | Type | Description |
 | :--- | :------ | :--- | :---------- |
 | items | null | `array` | 목록이 되는 배열 형태의 데이터를 넣습니다. 이 prop은 *필수값*입니다. |
-| width | 'auto' | `string|number` | 목록 영역의 가로사이즈 |
+| width | 'auto' | `string\|number` | 목록 영역의 가로사이즈 |
 | itemHeight | null | `number` | 아이템의 높이 |
 
 ### use
