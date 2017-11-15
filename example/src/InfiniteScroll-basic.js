@@ -107,8 +107,8 @@ export default class InfiniteScrollExampleBasic extends React.Component {
 					items={state.items}
 					itemHeight={60}
 					column={2}
-					innerMargin={5}
-					outerMargin={10}
+					innerMargin={[5,1]}
+					outerMargin={[5,5]}
 					type={state.type}
 					load={(type) => this.load(type)}
 					renderRow={(res) => this.renderRow(res)}

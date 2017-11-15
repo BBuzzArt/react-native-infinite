@@ -20,8 +20,8 @@ export default class InfiniteScroll extends React.Component {
 		useDebug: PropTypes.bool,
 
 		column: PropTypes.number,
-		innerMargin: PropTypes.number,
-		outerMargin: PropTypes.number,
+		innerMargin: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+		outerMargin: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 		removeClippedSubviews: PropTypes.bool,
 		endReachedPosition: PropTypes.number,
 		pageSize: PropTypes.number,
@@ -52,8 +52,8 @@ export default class InfiniteScroll extends React.Component {
 		useDebug: false,
 
 		column: 1,
-		innerMargin: 0,
-		outerMargin: 0,
+		innerMargin: [0,0],
+		outerMargin: [0,0],
 		removeClippedSubviews: true,
 		endReachedPosition: 2,
 		pageSize: 20,
@@ -92,6 +92,8 @@ export default class InfiniteScroll extends React.Component {
 			renderFooter: this.renderFooter.bind(this),
 			getItemLayout: this.getItemLayout.bind(this),
 		};
+		this.innerMargin = [0,0];
+		this.outerMargin = [0,0];
 	}
 	componentWillMount() {
 		this.updateSize(this.props);
@@ -128,11 +130,10 @@ export default class InfiniteScroll extends React.Component {
 	/**
 	 * get inner margin
 	 *
-	 * @param {Number} innerMargin
 	 * @return {Number}
 	 */
-	getInnerMargin(innerMargin=null) {
-		return (this.props.column > 1) ? (innerMargin || this.props.innerMargin) : 0;
+	getInnerMargin() {
+		return (this.props.column > 1) ? this.innerMargin[0] : 0;
 	}
 
 	/**
@@ -142,9 +143,9 @@ export default class InfiniteScroll extends React.Component {
 	 */
 	getItemSize(props) {
 		let width = props.width === 'auto' ? this.windowSize.width : props.width;
-		let innerMargin = (props.column - 1) * this.getInnerMargin(props.innerMargin);
+		let innerMargin = (props.column - 1) * this.getInnerMargin();
 
-		return props.column > 1 ? (width - (innerMargin + (props.outerMargin * 2))) / props.column : 'auto';
+		return props.column > 1 ? (width - (innerMargin + (this.outerMargin[0] * 2))) / props.column : 'auto';
 	}
 
 	/**
@@ -154,6 +155,8 @@ export default class InfiniteScroll extends React.Component {
 	 */
 	updateSize(props) {
 		this.windowSize = Dimensions.get('window');
+		this.innerMargin = (typeof props.innerMargin === 'number') ? [props.innerMargin, props.innerMargin] : props.innerMargin;
+		this.outerMargin = (typeof props.outerMargin === 'number') ? [props.outerMargin, props.outerMargin] : props.outerMargin;
 		this.itemSize = this.getItemSize(props);
 	}
 
@@ -184,7 +187,7 @@ export default class InfiniteScroll extends React.Component {
 			if (props.itemHeight) {
 				return {
 					length: props.itemHeight,
-					offset: ((props.itemHeight + props.innerMargin) * index) + (props.outerMargin),
+					offset: ((props.itemHeight + this.innerMargin[1]) * index) + (this.outerMargin[1]),
 					index
 				};
 			}
@@ -205,7 +208,7 @@ export default class InfiniteScroll extends React.Component {
 				{
 					width: this.itemSize,
 					marginLeft: this.getInnerMargin(),
-					marginTop: (props.column <= o.index) ? props.innerMargin : 0,
+					marginTop: (props.column <= o.index) ? this.innerMargin[1] : 0,
 				},
 				props.itemHeight && { height: props.itemHeight },
 			]}>
@@ -223,7 +226,7 @@ export default class InfiniteScroll extends React.Component {
 		return (
 			<View style={[
 				css.header,
-				!!props.outerMargin && { marginBottom: props.outerMargin },
+				!!props.outerMargin && { marginBottom: this.outerMargin[1] },
 				props.styleHeader
 			]}>
 				{!!props.renderHeader && props.renderHeader()}
@@ -236,7 +239,7 @@ export default class InfiniteScroll extends React.Component {
 		return (
 			<View style={[
 				css.footer,
-				!!props.outerMargin && { marginTop: props.outerMargin },
+				!!props.outerMargin && { marginTop: this.outerMargin[1] },
 				props.styleFooter
 			]}>
 				{!!props.renderFooter && props.renderFooter()}
@@ -277,7 +280,7 @@ export default class InfiniteScroll extends React.Component {
 						ListFooterComponent={this.binds.renderFooter}
 						numColumns={props.column}
 						columnWrapperStyle={props.column > 1 && [
-							{ marginLeft: 0 - this.getInnerMargin() + props.outerMargin },
+							{ marginLeft: 0 - this.getInnerMargin() + this.outerMargin[0] },
 							props.styleRow
 						]}
 						refreshing={props.useRefresh && props.type === 'refresh'}
