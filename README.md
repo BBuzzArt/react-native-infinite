@@ -75,8 +75,8 @@ import { InfiniteScroll } from 'react-native-infinite';
 | Name | default | Params | Type | Description |
 | :--- | :------ | :----- | :--- | :---------- |
 | column | 1 |  | `number` | 컬럼 수 |
-| innerMargin | 1 |  | `number` | 요소 사이의 간격 |
-| outerMargin | 1 |  | `number` | 목록 외곽의 간격 |
+| innerMargin | `[0,0]` |  | `number\|array` | 요소 사이의 간격 |
+| outerMargin | `[0,0]` |  | `number\|array` | 목록 외곽의 간격 |
 | removeClippedSubviews | true |  | `boolean` | 안보이는 요소는 언마운트할지에 대한 여부 |
 | endReachedPosition | 2 |  | `number` | 요소 더 불러오기 이벤트 시작하는 지점 |
 | pageSize | 20 |  | `number` | 한번에 표시하는 요소 갯수 |
@@ -160,12 +160,12 @@ this.infiniteScrollRef.list.scrollToOffset({
 });
 ```
 
-### re render
+### reRender
 컬럼을 변경하게 되면 `FlatList`에서 오류가 발생됩니다. state로 컬럼 변경이 불가능해 보입니다. `reRender()`메서드를 사용하면 `FlatList` 컴포넌트를 삭제하고 다시 마운트를 합니다.
 
 > #### 주의
 > 
-> 컴포넌트가 순간적으로 삭제되기 때문에 스크롤 위치가 이동하게 됩니다.
+> 컴포넌트가 순간적으로 삭제되기 때문에 스크롤 위치가 이동할 수 있습니다.
 
 ```
 this.infiniteScrollRef.reRender();
